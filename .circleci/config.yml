@@ -14,14 +14,14 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt install postgresql-client-9.6
       - run: |
-          plsql \
+          psql \
           -d $TEST_DATABASE_URL \
           -c "CREATE TABLE test (name char(25));"
       - run: |
-          plsql \
+          psql \
           -d $TEST_DATABASE_URL \
           -c "INSERT INTO test (names) vaules ('testbed')"
       - run: |
-          plsql \
+          psql \
           -d $TEST_DATABASE_URL \
           -c "SELECT * from test"
