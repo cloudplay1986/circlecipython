@@ -20,7 +20,7 @@ jobs:
       - run: |
           psql \
           -d $TEST_DATABASE_URL \
-          -c "INSERT INTO test (names) vaules ('testbed')"
+          -c "INSERT INTO test (names) values ('testbed')"
       - run: |
           psql \
           -d $TEST_DATABASE_URL \
