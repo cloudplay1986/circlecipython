@@ -34,6 +34,24 @@ jobs:
     steps:
       - checkout
       - run: whoami
+  build3:
+    docker:
+      - image: circleci/python:3.6.2-stretch-browsers
+        environment:
+          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
+      - image: circleci/postgres:9.6.5-alpine-ram
+    steps:
+      - checkout
+      - run: whoami
+  build4:
+    docker:
+      - image: circleci/python:3.6.2-stretch-browsers
+        environment:
+          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
+      - image: circleci/postgres:9.6.5-alpine-ram
+    steps:
+      - checkout
+      - run: whoami
 workflows:
   test_my_app:
     jobs:
@@ -41,3 +59,5 @@ workflows:
       - build2:
           requires:             #for parallel remove requires and build name.
             - build
+      - build3
+      - build4
