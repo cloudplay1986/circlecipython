@@ -1,21 +1,24 @@
-version: 2.1
-
-orbs:
-  python: circleci/python@0.2.1
-
+version: 2
 jobs:
-  build-and-test:
-    executor: python/default
+  build:
+    docker:
+      - image: circleci/python:3.6.2-stretch-browsers
+        environment:
+          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
+      - image: circleci/postgres:9.6.5-alpine-ram
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
-      - run:
-          command: ./manage.py test
-          name: Test
-
-workflows:
-  main:
-    jobs:
-      - build-and-test
+      - run: sudo apt install postgresql-client-9.6
+      - run: whoami 
+      - run: |
+          plsql \
+          -d $TEST_DATABASE_URL \
+          -c "CREATE TABLE test (name char(25));"
+      - run: |
+          plsql \
+          -d $TEST_DATABASE_URL \
+          -c "INSERT INTO test (names) vaules ('testbed')"
+      - run: |
+          plsql \
+          -d $TEST_DATABASE_URL \
+          -c "SELECT * from test"
